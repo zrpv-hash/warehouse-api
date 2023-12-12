@@ -1,6 +1,6 @@
 # Warehouse API
 
-gRPC + gRPC wrapper for rusprofile
+Warehouse-API
 
 ## Content
 
