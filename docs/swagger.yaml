@@ -1,0 +1,121 @@
+basePath: /
+definitions:
+  deleterelease.requestBody:
+    properties:
+      uniqueIds:
+        items:
+          type: string
+        type: array
+      warehouseId:
+        type: string
+    type: object
+  getproducts.Product:
+    properties:
+      id:
+        type: string
+      product_name:
+        type: string
+      quantity:
+        type: integer
+      size:
+        type: string
+    type: object
+  getproducts.responseBody:
+    properties:
+      products:
+        items:
+          $ref: '#/definitions/getproducts.Product'
+        type: array
+    type: object
+  postreserve.requestBody:
+    properties:
+      reserveItems:
+        items:
+          $ref: '#/definitions/postreserve.reserveItems'
+        type: array
+      warehouseId:
+        type: string
+    type: object
+  postreserve.reserveItems:
+    properties:
+      id:
+        type: string
+      quantity:
+        minimum: 1
+        type: integer
+    required:
+    - quantity
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Warehouse API
+  termsOfService: http://swagger.io/terms/
+  title: Warehouse API
+  version: "1.0"
+paths:
+  /product/release:
+    delete:
+      consumes:
+      - application/json
+      description: On input takes warehouse_id and product ids .
+      parameters:
+      - description: input
+        in: body
+        name: reqBody
+        required: true
+        schema:
+          $ref: '#/definitions/deleterelease.requestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Releases reserve.
+      tags:
+      - warehouse
+  /product/reserve:
+    post:
+      consumes:
+      - application/json
+      description: On input takes warehouse_id, product ids and  quantities.
+      parameters:
+      - description: input
+        in: body
+        name: reqBody
+        required: true
+        schema:
+          $ref: '#/definitions/postreserve.requestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Reserves products if warehouse have enough.
+      tags:
+      - warehouse
+  /warehouse/product:
+    get:
+      description: On input takes warehouse_id, and page offset.
+      parameters:
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: string
+      - description: page offset
+        in: query
+        name: page
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/getproducts.responseBody'
+      summary: Returns all products from specified warehouse.
+      tags:
+      - warehouse
+swagger: "2.0"

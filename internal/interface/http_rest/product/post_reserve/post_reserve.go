@@ -2,16 +2,18 @@ package postreserve
 
 import (
 	"net/http"
+	"warehousesvc/internal/application/reserve/reserve"
 	"warehousesvc/internal/interface/http_rest/common"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 type handler struct {
+	usecase reserve.UseCase
 }
 
-func New() common.Handler {
-	return &handler{}
+func New(uc reserve.UseCase) common.Handler {
+	return &handler{uc}
 }
 
 func (h *handler) Pattern() string {
@@ -19,7 +21,7 @@ func (h *handler) Pattern() string {
 }
 
 func (h *handler) Method() string {
-	return http.MethodGet
+	return http.MethodPost
 }
 
 func (h *handler) Middleware() []fiber.Handler {
