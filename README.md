@@ -19,7 +19,7 @@ gRPC + gRPC wrapper for rusprofile
 ### Clone the project
 
 ```bash
-https://github.com/AskhatZRPV/warehouse-api
+git clone https://github.com/AskhatZRPV/warehouse-api
 cd warehouse-api
 ```
 
