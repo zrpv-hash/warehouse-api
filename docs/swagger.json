@@ -1,0 +1,185 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Warehouse API",
+        "title": "Warehouse API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/product/release": {
+            "delete": {
+                "description": "On input takes warehouse_id and product ids .",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "warehouse"
+                ],
+                "summary": "Releases reserve.",
+                "parameters": [
+                    {
+                        "description": "input",
+                        "name": "reqBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/deleterelease.requestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/product/reserve": {
+            "post": {
+                "description": "On input takes warehouse_id, product ids and  quantities.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "warehouse"
+                ],
+                "summary": "Reserves products if warehouse have enough.",
+                "parameters": [
+                    {
+                        "description": "input",
+                        "name": "reqBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/postreserve.requestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/warehouse/product": {
+            "get": {
+                "description": "On input takes warehouse_id, and page offset.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "warehouse"
+                ],
+                "summary": "Returns all products from specified warehouse.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page offset",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/getproducts.responseBody"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "deleterelease.requestBody": {
+            "type": "object",
+            "properties": {
+                "uniqueIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "warehouseId": {
+                    "type": "string"
+                }
+            }
+        },
+        "getproducts.Product": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "product_name": {
+                    "type": "string"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "size": {
+                    "type": "string"
+                }
+            }
+        },
+        "getproducts.responseBody": {
+            "type": "object",
+            "properties": {
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/getproducts.Product"
+                    }
+                }
+            }
+        },
+        "postreserve.requestBody": {
+            "type": "object",
+            "properties": {
+                "reserveItems": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/postreserve.reserveItems"
+                    }
+                },
+                "warehouseId": {
+                    "type": "string"
+                }
+            }
+        },
+        "postreserve.reserveItems": {
+            "type": "object",
+            "required": [
+                "quantity"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "quantity": {
+                    "type": "integer",
+                    "minimum": 1
+                }
+            }
+        }
+    }
+}
