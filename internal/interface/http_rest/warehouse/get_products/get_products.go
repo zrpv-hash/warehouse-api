@@ -1,21 +1,23 @@
-package getall
+package getproducts
 
 import (
 	"net/http"
+	"warehousesvc/internal/application/product/getall"
 	"warehousesvc/internal/interface/http_rest/common"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 type handler struct {
+	getall.UseCase
 }
 
-func New() common.Handler {
-	return &handler{}
+func New(uc getall.UseCase) common.Handler {
+	return &handler{uc}
 }
 
 func (h *handler) Pattern() string {
-	return "/product/reserve"
+	return "/warehouse/product"
 }
 
 func (h *handler) Method() string {

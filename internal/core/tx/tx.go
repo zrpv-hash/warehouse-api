@@ -3,6 +3,7 @@ package tx
 import (
 	"context"
 	"errors"
+	"warehousesvc/internal/infrastructure/tx/isolation"
 )
 
 var (
@@ -10,5 +11,5 @@ var (
 )
 
 type TransactionManager interface {
-	Do(context.Context, func(context.Context) error) error
+	Do(context.Context, isolation.IsolationLevel, func(context.Context) error) error
 }
